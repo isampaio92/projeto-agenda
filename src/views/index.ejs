@@ -12,12 +12,20 @@
 
         <div class="responsive-table">
           <table class="table my-3">
-            <tr>
-              <td>Igor</td>
-              <td>Sampaio</td>
-              <td>6543264325</td>
-              <td>email@email.com</td>
-            </tr>
+            <% if(contatos.length > 0){ %>
+              <% contatos.forEach(contato => { %>
+                <tr>
+                  <td><%= contato.nome %></td>
+                  <td><%= contato.sobrenome %></td>
+                  <td><%= contato.telefone %></td>
+                  <td><%= contato.email %></td>
+                  <td><a href="/contatos/<%= contato._id %>">Editar</a></td>
+                  <td><a class="text-danger" href="/contatos/delete/<%= contato._id %>">Excluir</a></td>
+                </tr>
+              <% }); %>
+            <% } else { %>
+              <p class="text-center lead">Não existem contatos na sua agenda!</p>
+            <% } %>
           </table>
         </div>
 

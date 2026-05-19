@@ -11,7 +11,7 @@ const ContatosSchema = new mongoose.Schema({
 
 const ContatosModel = mongoose.model('Contatos', ContatosSchema);
 
-class Contatos {
+class Contato {
     constructor(body) {
         this.body = body;
         this.errors = [];
@@ -21,7 +21,7 @@ class Contatos {
     async register() {
         this.valida();
         if(this.errors.length > 0) return;
-        this.contatos = await ContatosModel.create(this.body);
+        this.contato = await ContatosModel.create(this.body);
     };
 
     valida() {
@@ -48,16 +48,28 @@ class Contatos {
 
     static async buscaPorId(id) {
         if(typeof id !== 'string') return;
-        const user = await ContatosModel.findById(id);
-        return user;
+        const contatos = await ContatosModel.findById(id);
+        return contatos;
+    };
+    
+    static async buscaContatos() {
+        const contatos = await ContatosModel.find()
+            .sort({ criadoEm: -1 });
+        return contatos;
     };
 
     async edit(id) {
         if(typeof id !== 'string') return;
         this.valida();
         if(this.errors.length > 0) return;
-        this.contatos = await ContatosModel.findByIdAndUpdate(id, this.body, { new: true });
+        this.contato = await ContatosModel.findByIdAndUpdate(id, this.body, { new: true });
     };
+
+    static async delete(id) {
+        if(typeof id !== 'string') return;
+        const contato = await ContatosModel.findByIdAndDelete(id);
+        return contato;
+    };    
 };
 
-module.exports = Contatos;
+module.exports = Contato;
